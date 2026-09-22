@@ -20,20 +20,6 @@
     --rule: rgba(34,29,20,0.16);
     --shadow: rgba(34,29,20,0.25);
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#0F0E0B;
-      --paper-dim:#1A1812;
-      --paper-card:#17150F;
-      --ink:#EEE7D4;
-      --ink-soft:#C9C0A6;
-      --olive:#9AA664;
-      --olive-deep:#C9D18C;
-      --rust:#D98A4C;
-      --rule: rgba(238,231,212,0.18);
-      --shadow: rgba(0,0,0,0.5);
-    }
-  }
   :root[data-theme="dark"]{
     --paper:#0F0E0B;
     --paper-dim:#1A1812;
@@ -737,7 +723,7 @@
 
 <section id="galeria">
   <div class="running-head"><span>Galería</span><span>Luis Enrique Rojas Barnett</span></div>
-  <h2 class="section-title">Toda mi colección</h2>
+  <h2 class="section-title">Sobre mi colección</h2>
   <p class="lede">Los ocho libros que he maquetado hasta ahora, reunidos aquí — cada uno con su propia cubierta completa.</p>
 
   <div class="gallery-grid">
@@ -958,6 +944,23 @@
 
   lightboxZoomBtn.addEventListener('click', (e)=>{ e.stopPropagation(); if(zoomEnabled) setZoom(!isZoomed); });
   lightboxImg.addEventListener('click', (e)=>{ e.stopPropagation(); if(zoomEnabled) setZoom(!isZoomed); });
+
+  // Swipe gestures (mobile): navigate prev/next by dragging left/right, only when not zoomed
+  let touchStartX = 0, touchStartY = 0;
+  lightboxImgWrap.addEventListener('touchstart', (e)=>{
+    if(isZoomed || !e.touches.length) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, {passive:true});
+  lightboxImgWrap.addEventListener('touchend', (e)=>{
+    if(isZoomed || !e.changedTouches.length) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0) showAt(currentIndex + 1);
+      else showAt(currentIndex - 1);
+    }
+  }, {passive:true});
 
   // Gallery: cycles through all 8 full covers
   const galleryItems = Array.from(document.querySelectorAll('.g-item'));
