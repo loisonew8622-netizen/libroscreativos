@@ -551,14 +551,13 @@
 
   @media (max-width: 860px){
     nav.tabs{
-      position:fixed; left:0; right:0; top:0; bottom:auto; width:auto;
-      height:calc(44px + env(safe-area-inset-top, 0px));
-      padding-top:env(safe-area-inset-top, 0px);
-      flex-direction:row; align-items:flex-end; overflow-x:auto; background:var(--paper);
+      position:sticky; top:0; left:auto; right:auto; bottom:auto; width:100%; height:auto;
+      flex-direction:row; align-items:stretch; overflow-x:auto; background:var(--paper);
       border-bottom:1px solid var(--rule);
+      z-index:50;
     }
     nav.tabs button{ writing-mode:horizontal-tb; transform:none; border-bottom:none; border-right:1px solid var(--rule); white-space:nowrap; padding:12px 14px;}
-    main, header.hero, footer{ margin-left:0; margin-top:calc(44px + env(safe-area-inset-top, 0px)); }
+    main, header.hero, footer{ margin-left:0; margin-top:0; }
     .presentacion-grid, .caso{ grid-template-columns:1fr; }
     .caso.reverse{ direction:ltr; }
     .caso .flip-card{ max-width:340px; margin:0 auto 24px; }
